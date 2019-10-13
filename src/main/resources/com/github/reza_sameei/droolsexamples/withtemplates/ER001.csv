@@ -1,4 +1,4 @@
-rule-id,xml-site,tb-site,treatment-arm,efftime-from,efftime-till
-A,S_101,987,ARM_A,01-Jan-2019,01-Jan-2020
-B,S_101,983,ARM_B,01-Jan-2019,01-Jan-2020
-C,S_101,983,ARM_A,01-Jan-2020,01-Jan-2021
+rule-id,xml-site,tb-site,contract-id,treatment-arm,efftime-from,efftime-till,financial-profile,currency,amount,OTHER_EXTRA_VARIABLE
+A,S_101,987,C101,ARM_A,01-Jan-2019,01-Jan-2020,SE133,USD,100,?
+B,S_101,983,C101,ARM_B,01-Jan-2019,01-Jan-2020,SE453,USD,121,?
+C,S_101,983,C102,ARM_A,01-Jan-2020,01-Jan-2021,SE534,USD,150,?

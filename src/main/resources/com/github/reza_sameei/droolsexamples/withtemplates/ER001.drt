@@ -2,13 +2,19 @@ template header
 ruleId
 xmlSiteId
 siteId
+contractId
 treatmentArm
 effectiveTimeFrom
 effectiveTimeTill
+financialProfile
+entitlementCurrency
+entitlementAmount
+otherExtraVar
 
 package com.github.reza_sameei.droolsexamples.withtemplates;
 
 import com.github.reza_sameei.droolsexamples.withtemplates.MappedFact;
+import com.github.reza_sameei.droolsexamples.withtemplates.TempEntitlementLog;
 
 template "ER001"
 
@@ -16,24 +22,35 @@ rule "ER001-@{ruleId}"
     no-loop
     salience 49
 when
-    $obj : MappedFact(
+    $fact : MappedFact(
         xmlSiteId == "@{xmlSiteId}",
         treatmentArm == "@{treatmentArm}",
         eventDate >= "@{effectiveTimeFrom}",
         eventDate < "@{effectiveTimeTill}"
     )
 then
-    System.out.printf(
-            "%s : '%s', '%s', '%s', '%s'\n",
-            "@{ruleId}",
-            $obj.getXmlSiteId(),
-            $obj.getTreatmentArm(),
-            "@{effectiveTimeFrom}",
-            "@{effectiveTimeTill}"
-    );
+
+    TempEntitlementLog log = new TempEntitlementLog(
+                                     "ER001",
+                                     $fact.getId(),
+                                     $fact.getXmlSiteId(),
+                                     "@{siteId}",
+                                     "@{contractId}",
+                                     $fact.getEventTime(),
+                                     "@{effectiveTimeFrom}",
+                                     "@{effectiveTimeTill}",
+                                     $fact.getTreatmentArm(),
+                                     "@{financialProfile}",
+                                     "@{entitlementCurrency}",
+                                     "@{entitlementAmount}"
+                                 );
+
+    insert(log);
+
+    System.out.printf("%s : %s\n", "@{ruleId}", log);
 end
 
-
+// Not needed production!
 rule "ER001-NOT-@{ruleId}"
     no-loop
     salience 49

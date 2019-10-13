@@ -2,6 +2,7 @@ package com.github.reza_sameei.droolsexamples.withtemplates;
 
 import java.lang.Object;
 import com.github.reza_sameei.droolsexamples.withtemplates.MappedFact;
+import java.time.LocalDate;
 
 rule "MappedFact ?"
 when
@@ -12,4 +13,11 @@ when
         eventDate < "01-Jan-2020"
     )
 then System.out.printf("MappedFact : %s\n", $obj);
+end
+
+rule "TempEntitlementLog ?"
+when
+    $log : TempEntitlementLog()
+then
+    System.out.printf("LOG : %s\n", $log);
 end
