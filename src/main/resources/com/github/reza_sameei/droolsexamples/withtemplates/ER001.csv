@@ -1,0 +1,4 @@
+rule-id,xml-site,tb-site,treatment-arm,efftime-from,efftime-till
+A,S_101,987,ARM_A,01-Jan-2019,01-Jan-2020
+B,S_101,983,ARM_B,01-Jan-2019,01-Jan-2020
+C,S_101,983,ARM_A,01-Jan-2020,01-Jan-2021

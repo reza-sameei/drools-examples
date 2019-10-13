@@ -1,0 +1,15 @@
+package com.github.reza_sameei.droolsexamples.withtemplates;
+
+import java.lang.Object;
+import com.github.reza_sameei.droolsexamples.withtemplates.MappedFact;
+
+rule "MappedFact ?"
+when
+    $obj : MappedFact(
+        xmlSiteId == "S_101",
+        treatmentArm == "ARM_A",
+        eventDate >= "01-Jan-2019",
+        eventDate < "01-Jan-2020"
+    )
+then System.out.printf("MappedFact : %s\n", $obj);
+end
