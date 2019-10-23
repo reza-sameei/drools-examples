@@ -8,6 +8,7 @@ import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.FactHandle;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class TestDroolsExamplesWithTemplates {
@@ -46,6 +47,51 @@ public class TestDroolsExamplesWithTemplates {
             System.out.println(fh.getClass().getName());
             System.out.println(fh);
         }
+
+    }
+
+    @Test
+    public void testDroolsSyntax() {
+
+        KieServices kieServices = KieServices.Factory.get();
+        KieContainer kieContainer = kieServices.getKieClasspathContainer();
+        KieBase kieBase = kieContainer.getKieBase("withTemplates");
+        KieSession kieSession = kieBase.newKieSession();
+
+        ArrayList<SampleFact.SampleGroup> groups1 = new ArrayList<>();
+        groups1.add(new SampleFact.SampleGroup("Hello"));
+        groups1.add(new SampleFact.SampleGroup("World"));
+        groups1.add(new SampleFact.SampleGroup(""));
+
+        ArrayList<SampleFact.SampleGroup> groups2 = new ArrayList<>();
+        groups2.add(new SampleFact.SampleGroup("Hello"));
+        groups2.add(new SampleFact.SampleGroup(""));
+
+        ArrayList<SampleFact.SampleForm> forms = new ArrayList<>();
+        forms.add(new SampleFact.SampleForm(groups1, new SampleFact.SampleGroup("Single1")));
+        forms.add(new SampleFact.SampleForm(groups2, new SampleFact.SampleGroup("Single2")));
+
+
+        ArrayList<SampleFact.SampleGroup> groups3 = new ArrayList<>();
+        groups3.add(new SampleFact.SampleGroup("Hello"));
+        groups3.add(new SampleFact.SampleGroup(""));
+        groups3.add(new SampleFact.SampleGroup(""));
+        groups3.add(new SampleFact.SampleGroup(""));
+        groups3.add(new SampleFact.SampleGroup(""));
+        groups3.add(new SampleFact.SampleGroup(""));
+        groups3.add(new SampleFact.SampleGroup(""));
+        groups3.add(new SampleFact.SampleGroup(""));
+        groups3.add(new SampleFact.SampleGroup(""));
+        groups3.add(new SampleFact.SampleGroup(""));
+        SampleFact.SampleForm singleForm =
+                new SampleFact.SampleForm(groups3, new SampleFact.SampleGroup("Single3"));
+
+        SampleFact sampleFact =
+                new SampleFact("1234", Optional.of(OffsetDateTime.now()), forms, singleForm);
+
+        kieSession.insert(sampleFact);
+
+        kieSession.fireAllRules();
 
     }
 

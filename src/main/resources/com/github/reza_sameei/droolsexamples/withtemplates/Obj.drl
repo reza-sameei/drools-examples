@@ -2,7 +2,9 @@ package com.github.reza_sameei.droolsexamples.withtemplates;
 
 import java.lang.Object;
 import com.github.reza_sameei.droolsexamples.withtemplates.MappedFact;
+import com.github.reza_sameei.droolsexamples.withtemplates.SampleFact;
 import java.time.LocalDate;
+import java.util.List;
 
 rule "MappedFact ?"
 when
@@ -20,4 +22,49 @@ when
     $log : TempEntitlementLog()
 then
     System.out.printf("LOG : %s\n", $log);
+end
+
+
+rule "FAXT01"
+when
+    number : Long() from accumulate(SampleFact(), count())
+then
+    System.out.printf("The Number : %d\n", number);
+end
+
+
+rule "FAXT02"
+when
+    $fact : SampleFact(factId == "1234") // with a list of basic criteria to match
+    // $form : SampleFact.SampleForm() from $fact.sampleForms // call then part for each sampleForm instance
+    // $forms : List() from collect(SampleFact.SampleForm() from $fact.sampleForms) // collect forms
+    // $groups : List() from collect(SampleFact.SampleGroup() from $fact.sampleForms) // collect forms
+    // $xs : List() from collect(SampleFact.SampleForm() from $fact.sampleForms)
+    // number : Long() from accumulate(SampleFact(), count())
+    // $xs : List() from collect( String() from collect(SampleFact.SampleGroup() from collect(Sample)) )
+
+    $xs : List() from accumulate(
+        $form : SampleFact.SampleForm() from $fact.getSampleForms(),
+        collectList($form.getSingleGroup().getSampleValue())
+    )
+
+    $ys : List() from accumulate(
+        $from : SampleFact.SampleForm() from $fact.getSampleForms()
+        and
+        SampleFact.SampleGroup($sampleValue : sampleValue) from $from.getSampleGroups()
+        ,
+        collectList($sampleValue)
+    )
+
+    $ws : List() from accumulate(
+            $group : SampleFact.SampleGroup() from $fact.getSingleForm().getSampleGroups(),
+            collectList($group.getSampleValue())
+    )
+
+    $s : String() from $fact.getSingleForm().getSingleGroup().getSampleValue()
+
+    // $form : SampleFact.SampleForm() from $fact.sampleForms
+    // SampleFact.SampleGroup($sampleValue : simpleValue) from $form.sampleGroups
+then
+    System.out.printf("The Number : FACT: %s, XS: %s, YS: %s, WS: %s, STR: %s\n", $fact, $xs.size(), $ys.size(), $ws.size(), $s);
 end

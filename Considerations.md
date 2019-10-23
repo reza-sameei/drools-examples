@@ -24,3 +24,6 @@ The CSV parser is so dum.
 java.lang.NullPointerException
 	at org.drools.decisiontable.parser.DefaultRuleSheetListener.flushRule...
 this means that your dtable file (data for template) is not reachable; check your configured path.
+
+
+[syntax](https://docs.jboss.org/drools/release/7.28.0.Final/drools-docs/html_single/index.html#drl-rules-con_drl-rules)
